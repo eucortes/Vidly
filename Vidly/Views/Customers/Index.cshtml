@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Vidly.Models.Customer>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<div class="container  col-md-12">
+    <table class="table table-bordered table-hover ">
+        <thead>
+        <tr><th>Details</th>
+            <th>Discount</th></tr>
+        </thead>
+        @foreach (var customer in Model)
+        {
+            <tbody>
+            <tr>
+                <td>
+
+                    @Html.ActionLink(customer.Name, "Details","Customers",  new {customer.Id },null)
+                </td>
+                <td>
+
+                    @customer.MembershipType.DiscountRate%
+                </td>
+            </tr>
+            </tbody>
+
+        }
+
+    </table>
+</div>
+
