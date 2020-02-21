@@ -6,17 +6,19 @@
 
 <h2>Movies</h2>
 <div class="container  col-lg-12">
-<table class="table-striped ">
+<table class="table table-striped ">
     <thead>
         <tr><th>Movies</th></tr>
+        <tr><th>Genre</th></tr>
     </thead>
     @foreach (var movie in Model.Movies)
     {
         <tbody>
     <tr>
         <td>
-            @movie.Name
+            @Html.ActionLink(movie.Name, "Details", "Movies",new { movie.Id},null)
         </td>
+        <td>@movie.Genre.Name</td>
     </tr>
         </tbody>
 

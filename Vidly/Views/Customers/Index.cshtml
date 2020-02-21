@@ -9,7 +9,7 @@
     <table class="table table-bordered table-hover ">
         <thead>
         <tr><th>Details</th>
-            <th>Discount</th></tr>
+            <th>Membership Type</th></tr>
         </thead>
         @foreach (var customer in Model)
         {
@@ -21,7 +21,7 @@
                 </td>
                 <td>
 
-                    @customer.MembershipType.DiscountRate%
+                    @customer.MembershipType.Name
                 </td>
             </tr>
             </tbody>
