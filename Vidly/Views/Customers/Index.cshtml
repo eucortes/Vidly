@@ -5,25 +5,28 @@
 }
 
 <h2>Details</h2>
-<div class="container  col-md-12">
+<div class="container  col-md-12 bottom-buffer">@Html.ActionLink("New Customer", "New", "Customers", null, new { @class = "btn btn-success" })</div>
+<div class="container  col-md-12 ">
     <table class="table table-bordered table-hover ">
         <thead>
-        <tr><th>Details</th>
-            <th>Membership Type</th></tr>
+            <tr>
+                <th>Details</th>
+                <th>Membership Type</th>
+            </tr>
         </thead>
         @foreach (var customer in Model)
         {
             <tbody>
-            <tr>
-                <td>
+                <tr>
+                    <td>
 
-                    @Html.ActionLink(customer.Name, "Details","Customers",  new {customer.Id },null)
-                </td>
-                <td>
+                        @Html.ActionLink(customer.Name, "Edit", "Customers", new { customer.Id }, null)
+                    </td>
+                    <td>
 
-                    @customer.MembershipType.Name
-                </td>
-            </tr>
+                        @customer.MembershipType.Name
+                    </td>
+                </tr>
             </tbody>
 
         }

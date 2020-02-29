@@ -22,6 +22,19 @@ namespace Vidly.Controllers
         {
            _context.Dispose();
         }
+
+        public ActionResult New()
+        {
+            //var membershipTypes 
+                var viewModel=new CustomerFormViewModel
+                {   Customer = new Customer(),
+                    MembershipTypes=_context.MembershipTypes.ToList()
+                };
+
+            return View("CustomerForm",viewModel);
+        }
+
+        
         // GET: Customers
         public ActionResult Index()
         {
@@ -43,6 +56,53 @@ namespace Vidly.Controllers
             
             return View(customer);
         }
+        public ActionResult Edit(int Id)
+        {
 
+            var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == Id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            var viewModel= new CustomerFormViewModel
+            {
+                Customer=customer,
+                MembershipTypes=_context.MembershipTypes.ToList()
+            };
+
+
+            return View("CustomerForm",viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Save(Customer customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                var viewModel= new CustomerFormViewModel
+                {
+                    Customer = customer,
+                    MembershipTypes = _context.MembershipTypes.ToList()
+                };
+                return View("CustomerForm",viewModel);
+            }
+            if (customer.Id == 0)
+            {
+                _context.Customers.Add(customer);
+
+            }
+            else
+            {
+                var customerInDb=_context.Customers.Single(c=>c.Id==customer.Id);
+                //mapper.map(customer,customerindb) //automapper use a limited version of cutomer of editable fields
+                customerInDb.Name=customer.Name;
+                customerInDb.BirthDate = customer.BirthDate;
+                customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+                customerInDb.MembershipTypeId = customer.MembershipTypeId;
+            }
+            _context.SaveChanges();
+            return RedirectToAction("Index","Customers");
+        }
     }
 }
